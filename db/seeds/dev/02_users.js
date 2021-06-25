@@ -1,7 +1,7 @@
 
 exports.seed = async (knex) => {
   try {
-    return knex('users').insert([{
+    await knex('users').insert([{
       id: 1,
       first_name: 'Ali',
       last_name: 'Foo'
