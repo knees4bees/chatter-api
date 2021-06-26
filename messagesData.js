@@ -4,17 +4,17 @@ faker.seed(1729)
 
 const fakeMessages = [];
 
-const createFakeMessage = () => ({
+const createFakeMessage = (hasOldDate) => ({
   sender_id: 1,
   recipient_id: 2,
   content: faker.hacker.phrase(),
+  created_at: hasOldDate ? faker.date.past() : faker.date.recent(),
 });
 
 for (let i = 0; i < 120; i++) {
-  fakeMessages.push(createFakeMessage());
+  fakeMessages.push(createFakeMessage(true));
 }
 
-console.log("fake data test: ", createFakeMessage());
 
 const messagesData = [{
   id: 1,
