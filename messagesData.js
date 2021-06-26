@@ -4,15 +4,15 @@ faker.seed(1729)
 
 const fakeMessages = [];
 
-const createFakeMessage = (hasOldDate) => ({
-  sender_id: 1,
-  recipient_id: 2,
+const createFakeMessage = (sender_id, recipient_id, hasOldDate) => ({
+  sender_id,
+  recipient_id,
   content: faker.hacker.phrase(),
   created_at: hasOldDate ? faker.date.past() : faker.date.recent(),
 });
 
 for (let i = 0; i < 120; i++) {
-  fakeMessages.push(createFakeMessage(true));
+  fakeMessages.push(createFakeMessage(1, 2, true));
 }
 
 
