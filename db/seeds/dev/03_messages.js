@@ -89,7 +89,9 @@ exports.seed = async (knex) => {
       sender_id: 2,
       recipient_id: 3,
       content: 'It\'s really cute. Fluffy tail and everything'
-    }])
+    }]);
+
+    await knex.raw('SELECT setval(\'messages_id_seq\', MAX(id)) from messages');
   } catch (error) {
     console.log(`Error seeding messages: ${error}`);
   }
