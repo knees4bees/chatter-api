@@ -28,9 +28,16 @@ app.get('/api/v1/messages', async (request, response) => {
     }
 
     if (request.query.sender) {
-      messages = await database('messages').where('sender_id', request.query.sender).where('recipient_id', request.query.recipient).select();
+      messages = await database('messages')
+        .where('sender_id', request.query.sender)
+        .where('recipient_id', request.query.recipient)
+        .limit(2)
+        .select();
     } else {
-      messages = await database('messages').where('recipient_id', request.query.recipient).select();
+      messages = await database('messages')
+        .where('recipient_id', request.query.recipient)
+        .limit(2)
+        .select();
     }
 
     if (messages.length) {
