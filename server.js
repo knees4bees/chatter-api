@@ -35,6 +35,6 @@ app.get('/api/v1/messages', async (request, response) => {
       response.status(404).json({ error: 'Could not find requested messages' });
     }
   } catch (error) {
-    response.status(500).json({ error });
+    response.sendStatus(500).json({ error: 'Internal server error' });
   }
 });
