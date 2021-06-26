@@ -4,13 +4,15 @@ exports.seed = async (knex) => {
       id: 1,
       sender_id: 1,
       recipient_id: 2,
-      content: 'Hey hey!'
+      content: 'Hey hey!',
+      created_at: "2021-03-11T02:26:00.219Z"
     },
     {
       id: 2,
       sender_id: 2,
       recipient_id: 1,
-      content: 'Hey what\'s up?'
+      content: 'Hey what\'s up?',
+      created_at: "2021-03-11T02:26:00.219Z"
     },
     {
       id: 3,
@@ -46,13 +48,15 @@ exports.seed = async (knex) => {
       id: 8,
       sender_id: 2,
       recipient_id: 3,
-      content: 'Hey'
+      content: 'Hey',
+      created_at: "2021-04-18T02:26:00.219Z"
     },
     {
       id: 9,
       sender_id: 3,
       recipient_id: 2,
-      content: 'hey how\'s it going'
+      content: 'hey how\'s it going',
+      created_at: "2021-04-19T02:26:00.219Z"
     },
     {
       id: 10,
