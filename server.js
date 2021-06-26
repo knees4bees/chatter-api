@@ -18,3 +18,12 @@ app.listen(app.get('port'), () => {
 app.get('/', (request, response) => {
   response.send('Welcome to the Chatter API!');
 });
+
+app.get('/api/v1/messages', async (request, response) => {
+  try {
+    const messages = await database('messages').select();
+    response.status(200).json(messages);
+  } catch (error) {
+    response.status(500).json({ error });
+  }
+});
