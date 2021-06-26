@@ -20,9 +20,20 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/v1/messages', async (request, response) => {
+  let messages;
+
   try {
-    const messages = await database('messages').select();
-    response.status(200).json(messages);
+    if (request.query.sender) {
+      messages = await database('messages').where('sender_id', request.query.sender).select();
+    } else {
+      messages = await database('messages').select();
+    }
+
+    if (messages.length) {
+      response.status(200).json(messages);
+    } else {
+      response.status(404).json({ error: 'Could not find requested messages' });
+    }
   } catch (error) {
     response.status(500).json({ error });
   }
