@@ -23,10 +23,14 @@ app.get('/api/v1/messages', async (request, response) => {
   let messages;
 
   try {
+    if (!request.query.recipient) {
+      response.status(422).json({ error: 'A recipient parameter is required' });
+    }
+
     if (request.query.sender) {
-      messages = await database('messages').where('sender_id', request.query.sender).select();
+      messages = await database('messages').where('sender_id', request.query.sender).where('recipient_id', request.query.recipient).select();
     } else {
-      messages = await database('messages').select();
+      messages = await database('messages').where('recipient_id', request.query.recipient).select();
     }
 
     if (messages.length) {
