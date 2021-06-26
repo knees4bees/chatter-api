@@ -31,12 +31,14 @@ app.get('/api/v1/messages', async (request, response) => {
       messages = await database('messages')
         .where('sender_id', request.query.sender)
         .where('recipient_id', request.query.recipient)
-        .limit(2)
+        .whereBetween('created_at', [database.raw(`? - ?::INTERVAL`, [database.fn.now(), '30 day']), database.fn.now()])
+        .orderBy('created_at', 'desc')
+        .limit(5)
         .select();
     } else {
       messages = await database('messages')
         .where('recipient_id', request.query.recipient)
-        .limit(2)
+        .limit(5)
         .select();
     }
 
@@ -46,6 +48,7 @@ app.get('/api/v1/messages', async (request, response) => {
       response.status(404).json({ error: 'Could not find requested messages' });
     }
   } catch (error) {
+    console.log("here's the error: ", error)
     response.status(500).json({ error });
   }
 });
