@@ -6,7 +6,7 @@ const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 const now = database.fn.now();
 const messageCutoff = '30 day';
-const messageLimit = 5;
+const messageLimit = 100;
 
 app.use(cors());
 app.use(express.json());
@@ -55,7 +55,6 @@ app.get('/api/v1/messages', async (request, response) => {
       response.status(404).json({ error: 'Could not find requested messages' });
     }
   } catch (error) {
-    console.log("here's the error: ", error)
     response.status(500).json({ error });
   }
 });
