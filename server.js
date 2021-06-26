@@ -35,6 +35,25 @@ app.get('/api/v1/messages', async (request, response) => {
       response.status(404).json({ error: 'Could not find requested messages' });
     }
   } catch (error) {
-    response.sendStatus(500).json({ error: 'Internal server error' });
+    response.status(500).json({ error });
+  }
+});
+
+app.post('/api/v1/messages', async (request, response) => {
+  const message = request.body;
+
+  for (let requiredParameter of ['sender_id', 'recipient_id', 'content']) {
+    if (!message[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `Expected format: { sender_id: <integer>, recipient_id: <integer>, content: <text> }. You're missing a "${requiredParameter}" property.` });
+    }
+  }
+
+  try {
+    const id = await database('messages').insert(message, 'id');
+    response.status(201).json({ id })
+  } catch (error) {
+    response.status(500).json({ error });
   }
 });
