@@ -77,3 +77,17 @@ app.post('/api/v1/messages', async (request, response) => {
     response.status(500).json({ error });
   }
 });
+
+app.get('/api/v1/users', async (request, response) => {
+  try {
+    const users = await database('users').select();
+
+    if (users.length) {
+      response.status(200).json(users);
+    } else {
+      response.status(404).json({ error: 'Could not find any users' });
+    }
+  } catch(error) {
+    response.status(500).json({ error });
+  }
+});
