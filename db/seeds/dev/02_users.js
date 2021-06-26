@@ -26,6 +26,8 @@ exports.seed = async (knex) => {
       first_name: 'Elena',
       last_name: 'Foo'
     }])
+
+    await knex.raw('SELECT setval(\'users_id_seq\', MAX(id)) from users');
   } catch (error) {
     console.log(`Error seeding users: ${error}`);
   }
