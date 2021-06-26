@@ -2,8 +2,6 @@ const faker = require('faker');
 
 faker.seed(1729)
 
-const fakeMessages = [];
-
 const createFakeMessage = (sender_id, recipient_id, hasOldDate) => ({
   sender_id,
   recipient_id,
@@ -11,10 +9,15 @@ const createFakeMessage = (sender_id, recipient_id, hasOldDate) => ({
   created_at: hasOldDate ? faker.date.past() : faker.date.recent(),
 });
 
-for (let i = 0; i < 120; i++) {
-  fakeMessages.push(createFakeMessage(1, 2, true));
-}
+const createFakeMessages = (sender_id, recipient_id, hasOldDate, quantity) => {
+  const fakeMessages = [];
 
+  for (let i = 0; i < quantity; i++) {
+    fakeMessages.push(createFakeMessage(sender_id, recipient_id, hasOldDate));
+  }
+
+  return fakeMessages;
+}
 
 const messagesData = [{
   id: 1,
@@ -110,7 +113,10 @@ const messagesData = [{
   recipient_id: 3,
   content: 'It\'s really cute. Fluffy tail and everything'
 },
-...fakeMessages
+...createFakeMessages(3, 4, true, 20),
+...createFakeMessages(4, 3, true, 80),
+...createFakeMessages(3, 4, false, 120),
+...createFakeMessages(4, 3, false, 40),
 ];
 
 module.exports = messagesData;
