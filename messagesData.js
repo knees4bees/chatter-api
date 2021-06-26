@@ -1,3 +1,21 @@
+const faker = require('faker');
+
+faker.seed(1729)
+
+const fakeMessages = [];
+
+const createFakeMessage = () => ({
+  sender_id: 1,
+  recipient_id: 2,
+  content: faker.hacker.phrase(),
+});
+
+for (let i = 0; i < 120; i++) {
+  fakeMessages.push(createFakeMessage());
+}
+
+console.log("fake data test: ", createFakeMessage());
+
 const messagesData = [{
   id: 1,
   sender_id: 1,
@@ -91,6 +109,8 @@ const messagesData = [{
   sender_id: 2,
   recipient_id: 3,
   content: 'It\'s really cute. Fluffy tail and everything'
-}];
+},
+...fakeMessages
+];
 
 module.exports = messagesData;
