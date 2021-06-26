@@ -43,6 +43,8 @@ app.get('/api/v1/messages', async (request, response) => {
     } else {
       messages = await database('messages')
         .where('recipient_id', recipient_id)
+        .whereBetween('created_at', [database.raw(`? - ?::INTERVAL`, [now, messageCutoff]), now])
+        .orderBy('created_at', 'desc')
         .limit(messageLimit)
         .select();
     }
