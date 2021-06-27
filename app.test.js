@@ -238,6 +238,32 @@ describe('POST /api/v1/messages', () => {
       'Expected format: { sender_id: <integer>, recipient_id: <integer>, content: <text> }. You\'re missing a "content" property.'
     );
 	});
+
+	it('should return a 500 and an error message if the sender doesn\'t exist as a user', async () => {
+    const newMessage = {
+      "sender_id": 8,
+      "recipient_id": 2,
+      "content": "helloooooo"
+    }
+
+	  const response = await request(app).post('/api/v1/messages').send(newMessage);
+
+	  expect(response.status).toBe(500);
+    expect(response.body.error).toEqual('Internal server error');
+	});
+
+	it('should return a 500 and an error message if the recipient doesn\'t exist as a user', async () => {
+    const newMessage = {
+      "sender_id": 4,
+      "recipient_id": 9,
+      "content": "helloooooo"
+    }
+
+	  const response = await request(app).post('/api/v1/messages').send(newMessage);
+
+	  expect(response.status).toBe(500);
+    expect(response.body.error).toEqual('Internal server error');
+	});
 });
 
 // Get all users
