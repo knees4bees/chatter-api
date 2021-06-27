@@ -155,3 +155,22 @@ describe('GET /api/v1/messages?recipient=:recipient_id&sender=:sender_id', () =>
     expect(response.body.error).toEqual('Could not find requested messages');
 	});
 });
+
+// Get all users
+describe('GET /api/v1/users', () => {
+  beforeEach(async () => {
+    await database.seed.run();
+  });
+
+	it('should return a 200 and all users', async () => {
+    const dbUsers = await database('users').select();
+    const expectedUsers = JSON.parse(JSON.stringify(dbUsers));
+
+	  const response = await request(app).get('/api/v1/users');
+	  const users = response.body;
+
+	  expect(response.status).toBe(200);
+    expect(users ).toHaveLength(5);
+	  expect(users ).toEqual(expectedUsers);
+	});
+});
