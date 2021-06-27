@@ -18,9 +18,7 @@ describe('Server', () => {
 
 // Get recent messages from all senders
 describe('GET /api/v1/messages?recipient=:recipient_id', () => {
-	it('should return a 200 and recent messages from all senders', async () => {
-    const recipient_id = 3;
-
+  const dbCall = async (recipient_id) => {
 	  const dbMessages = await database('messages')
       .where('recipient_id', recipient_id)
       .whereBetween('created_at', [database.raw(`? - ?::INTERVAL`, [now, messageCutoff]), now])
@@ -28,6 +26,13 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
       .limit(messageLimit)
       .select();
     const expectedMessages = JSON.parse(JSON.stringify(dbMessages));
+
+    return expectedMessages;
+  }
+
+	it('should return a 200 and recent messages from all senders', async () => {
+    const recipient_id = 3;
+    const expectedMessages = await dbCall(recipient_id);
 
 	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}`);
 	  const messages = response.body;
@@ -39,14 +44,7 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
 
 	it('should get a maximum of 100 messages', async () => {
     const recipient_id = 4;
-
-	  const dbMessages = await database('messages')
-      .where('recipient_id', recipient_id)
-      .whereBetween('created_at', [database.raw(`? - ?::INTERVAL`, [now, messageCutoff]), now])
-      .orderBy('created_at', 'desc')
-      .limit(messageLimit)
-      .select();
-    const expectedMessages = JSON.parse(JSON.stringify(dbMessages));
+    const expectedMessages = await dbCall(recipient_id);
 
 	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}`);
 	  const messages = response.body;
@@ -58,14 +56,7 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
 
 	it('should only get recent messages', async () => {
     const recipient_id = 2;
-
-	  const dbMessages = await database('messages')
-      .where('recipient_id', recipient_id)
-      .whereBetween('created_at', [database.raw(`? - ?::INTERVAL`, [now, messageCutoff]), now])
-      .orderBy('created_at', 'desc')
-      .limit(messageLimit)
-      .select();
-    const expectedMessages = JSON.parse(JSON.stringify(dbMessages));
+    const expectedMessages = await dbCall(recipient_id);
 
 	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}`);
 	  const messages = response.body;
