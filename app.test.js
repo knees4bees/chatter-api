@@ -18,6 +18,10 @@ describe('Server', () => {
 
 // Get recent messages from all senders
 describe('GET /api/v1/messages?recipient=:recipient_id', () => {
+  beforeEach(async () => {
+    await database.seed.run();
+  });
+
   const dbCall = async (recipient_id) => {
 	  const dbMessages = await database('messages')
       .where('recipient_id', recipient_id)
@@ -85,6 +89,10 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
 
 // Get recent messages from a specific sender
 describe('GET /api/v1/messages?recipient=:recipient_id&sender=:sender_id', () => {
+  beforeEach(async () => {
+    await database.seed.run();
+  });
+
   const dbCall = async (sender_id, recipient_id) => {
 	  const dbMessages = await database('messages')
       .where('sender_id', sender_id)
