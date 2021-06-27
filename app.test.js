@@ -156,6 +156,48 @@ describe('GET /api/v1/messages?recipient=:recipient_id&sender=:sender_id', () =>
 	});
 });
 
+// Post a new message
+describe('POST /api/v1/messages', () => {
+  beforeEach(async () => {
+    await database.seed.run();
+  });
+
+  const dbCall = async (sender_id, recipient_id) => {
+	  const dbMessages = await database('messages')
+      .where('sender_id', sender_id)
+      .where('recipient_id', recipient_id)
+      .whereBetween('created_at', [database.raw(`? - ?::INTERVAL`, [now, messageCutoff]), now])
+      .orderBy('created_at', 'desc')
+      .limit(messageLimit)
+      .select();
+    const expectedMessages = JSON.parse(JSON.stringify(dbMessages));
+
+    return expectedMessages;
+  }
+
+	it('should post a new message to the database', async () => {
+    const sender_id = 4;
+    const recipient_id = 2;
+    const newMessage = {
+      "sender_id": sender_id,
+      "recipient_id": recipient_id,
+      "content": "helloooooo"
+    }
+
+    const messagesBeforePost = await dbCall(sender_id, recipient_id);
+
+	  const response = await request(app).post('/api/v1/messages').send(newMessage);
+
+    const messagesAfterPost = await dbCall(sender_id, recipient_id);
+    const postedMessage = messagesAfterPost[0];
+
+	  expect(response.status).toBe(201);
+    expect(messagesBeforePost).toHaveLength(0);
+    expect(messagesAfterPost).toHaveLength(1);
+	  expect(newMessage.content).toBe(postedMessage.content);
+	});
+});
+
 // Get all users
 describe('GET /api/v1/users', () => {
   beforeEach(async () => {
@@ -170,7 +212,7 @@ describe('GET /api/v1/users', () => {
 	  const users = response.body;
 
 	  expect(response.status).toBe(200);
-    expect(users ).toHaveLength(5);
-	  expect(users ).toEqual(expectedUsers);
+    expect(users).toHaveLength(5);
+	  expect(users).toEqual(expectedUsers);
 	});
 });
