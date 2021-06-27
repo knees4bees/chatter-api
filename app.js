@@ -49,7 +49,8 @@ app.get('/api/v1/messages', async (request, response) => {
       response.status(404).json({ error: 'Could not find requested messages' });
     }
   } catch (error) {
-    response.status(500).json({ error });
+    console.log('Error getting messages: ', error);
+    response.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -68,7 +69,8 @@ app.post('/api/v1/messages', async (request, response) => {
     const id = await database('messages').insert(message, 'id');
     response.status(201).json({ id })
   } catch (error) {
-    response.status(500).json({ error });
+    console.log('Error posting message: ', error);
+    response.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -82,7 +84,8 @@ app.get('/api/v1/users', async (request, response) => {
       response.status(404).json({ error: 'Could not find any users' });
     }
   } catch(error) {
-    response.status(500).json({ error });
+    console.log('Error getting users: ', error);
+    response.status(500).json({ error: 'Internal server error' });
   }
 });
 
