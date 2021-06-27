@@ -10,9 +10,13 @@
     "knex": "^0.95.6",
     "pg": "^8.6.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "babel-jest": "^27.0.5",
+    "supertest": "^6.1.3"
+  },
   "scripts": {
-    "test": "test",
+    "test": "jest --watchAll",
     "start": "node server.js"
   },
   "repository": {
