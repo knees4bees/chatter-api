@@ -55,4 +55,13 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
     expect(messages).toHaveLength(100);
 	  expect(messages).toEqual(expectedMessages);
 	});
+
+	it('should return a 404 and an error message when there are no messages', async () => {
+    const recipient_id = 5;
+
+	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}`);
+      
+	  expect(response.status).toBe(404);
+    expect(response.body.error).toEqual('Could not find requested messages');
+	});
 });
