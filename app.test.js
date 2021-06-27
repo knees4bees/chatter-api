@@ -196,6 +196,48 @@ describe('POST /api/v1/messages', () => {
     expect(messagesAfterPost).toHaveLength(1);
 	  expect(newMessage.content).toBe(postedMessage.content);
 	});
+
+	it('should return a 422 and an error message if the message doesn\'t have a sender', async () => {
+    const newMessage = {
+      "recipient_id": 2,
+      "content": "helloooooo"
+    }
+
+	  const response = await request(app).post('/api/v1/messages').send(newMessage);
+
+	  expect(response.status).toBe(422);
+    expect(response.body.error).toEqual(
+      'Expected format: { sender_id: <integer>, recipient_id: <integer>, content: <text> }. You\'re missing a "sender_id" property.'
+    );
+	});
+
+	it('should return a 422 and an error message if the message doesn\'t have a recipient', async () => {
+    const newMessage = {
+      "sender_id": 4,
+      "content": "helloooooo"
+    }
+
+	  const response = await request(app).post('/api/v1/messages').send(newMessage);
+
+	  expect(response.status).toBe(422);
+    expect(response.body.error).toEqual(
+      'Expected format: { sender_id: <integer>, recipient_id: <integer>, content: <text> }. You\'re missing a "recipient_id" property.'
+    );
+	});
+
+	it('should return a 422 and an error message if the message doesn\'t have content', async () => {
+    const newMessage = {
+      "sender_id": 4,
+      "recipient_id": 2
+    }
+
+	  const response = await request(app).post('/api/v1/messages').send(newMessage);
+
+	  expect(response.status).toBe(422);
+    expect(response.body.error).toEqual(
+      'Expected format: { sender_id: <integer>, recipient_id: <integer>, content: <text> }. You\'re missing a "content" property.'
+    );
+	});
 });
 
 // Get all users
