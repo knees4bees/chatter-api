@@ -82,3 +82,68 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
     expect(response.body.error).toEqual('A recipient parameter is required');
 	});
 });
+
+// Get recent messages from a specific sender
+describe('GET /api/v1/messages?recipient=:recipient_id&sender=:sender_id', () => {
+  const dbCall = async (sender_id, recipient_id) => {
+	  const dbMessages = await database('messages')
+      .where('sender_id', sender_id)
+      .where('recipient_id', recipient_id)
+      .whereBetween('created_at', [database.raw(`? - ?::INTERVAL`, [now, messageCutoff]), now])
+      .orderBy('created_at', 'desc')
+      .limit(messageLimit)
+      .select();
+    const expectedMessages = JSON.parse(JSON.stringify(dbMessages));
+
+    return expectedMessages;
+  }
+
+	it('should return a 200 and recent messages from a specific sender', async () => {
+    const sender_id = 2;
+    const recipient_id = 1;
+    const expectedMessages = await dbCall(sender_id, recipient_id);
+
+	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}&sender=${sender_id}`);
+	  const messages = response.body;
+
+	  expect(response.status).toBe(200);
+    expect(messages).toHaveLength(3);
+	  expect(messages).toEqual(expectedMessages);
+	});
+
+	it('should get a maximum of 100 messages', async () => {
+    const sender_id = 3;
+    const recipient_id = 4;
+    const expectedMessages = await dbCall(sender_id, recipient_id);
+
+	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}&sender=${sender_id}`);
+	  const messages = response.body;
+
+	  expect(response.status).toBe(200);
+    expect(messages).toHaveLength(100);
+	  expect(messages).toEqual(expectedMessages);
+	});
+
+	it('should only get recent messages', async () => {
+    const sender_id = 3;
+    const recipient_id = 2;
+    const expectedMessages = await dbCall(sender_id, recipient_id);
+
+	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}&sender=${sender_id}`);
+	  const messages = response.body;
+
+	  expect(response.status).toBe(200);
+    expect(messages).toHaveLength(2);
+	  expect(messages).toEqual(expectedMessages);
+	});
+
+	it('should return a 404 and an error message when there are no messages', async () => {
+    const sender_id = 1;
+    const recipient_id = 4;
+
+	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}&sender=${sender_id}`);
+
+	  expect(response.status).toBe(404);
+    expect(response.body.error).toEqual('Could not find requested messages');
+	});
+});
