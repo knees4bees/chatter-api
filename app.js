@@ -24,6 +24,7 @@ app.get('/api/v1/messages', async (request, response) => {
   try {
     if (!recipient_id) {
       response.status(422).json({ error: 'A recipient parameter is required' });
+      return;
     }
 
     if (sender_id) {
