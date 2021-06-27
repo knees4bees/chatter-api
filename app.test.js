@@ -64,4 +64,11 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
 	  expect(response.status).toBe(404);
     expect(response.body.error).toEqual('Could not find requested messages');
 	});
+
+	it('should return a 422 and an error message when no recipient is specified', async () => {
+	  const response = await request(app).get('/api/v1/messages');
+
+	  expect(response.status).toBe(422);
+    expect(response.body.error).toEqual('A recipient parameter is required');
+	});
 });
