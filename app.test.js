@@ -31,7 +31,7 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
 
 	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}`);
 	  const messages = response.body;
-      
+
 	  expect(response.status).toBe(200);
     expect(messages).toHaveLength(50);
 	  expect(messages).toEqual(expectedMessages);
@@ -50,9 +50,28 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
 
 	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}`);
 	  const messages = response.body;
-      
+
 	  expect(response.status).toBe(200);
     expect(messages).toHaveLength(100);
+	  expect(messages).toEqual(expectedMessages);
+	});
+
+	it('should only get recent messages', async () => {
+    const recipient_id = 2;
+
+	  const dbMessages = await database('messages')
+      .where('recipient_id', recipient_id)
+      .whereBetween('created_at', [database.raw(`? - ?::INTERVAL`, [now, messageCutoff]), now])
+      .orderBy('created_at', 'desc')
+      .limit(messageLimit)
+      .select();
+    const expectedMessages = JSON.parse(JSON.stringify(dbMessages));
+
+	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}`);
+	  const messages = response.body;
+
+	  expect(response.status).toBe(200);
+    expect(messages).toHaveLength(4);
 	  expect(messages).toEqual(expectedMessages);
 	});
 
@@ -60,7 +79,7 @@ describe('GET /api/v1/messages?recipient=:recipient_id', () => {
     const recipient_id = 5;
 
 	  const response = await request(app).get(`/api/v1/messages?recipient=${recipient_id}`);
-      
+
 	  expect(response.status).toBe(404);
     expect(response.body.error).toEqual('Could not find requested messages');
 	});
