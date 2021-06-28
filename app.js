@@ -8,7 +8,6 @@ app.use(express.json());
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
-const now = database.fn.now();
 const messageCutoff = '30 day';
 const messageLimit = 100;
 
@@ -17,6 +16,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/v1/messages', async (request, response) => {
+  const now = database.fn.now();
   const sender_id = request.query.sender;
   const recipient_id = request.query.recipient;
   let messages;
