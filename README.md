@@ -124,8 +124,15 @@ Wrongly formatted or invalid requests yield an error (i.e., a 404, 422, or 500 s
 
 ---
 ## Project Design and Process
+I started this project by sketching a few wireframes for a possible frontend, partly because that helped me get comfortable but mostly so I could imagine how and where the API's data might eventually be used and let that guide me in my decisions as I planned the structure of the endpoints and the database schema.
 
 ### Wireframes
+The sidebar on the left holds a list of all users (possibly/probably only those users who are the current user's friends/contacts) with a specific person selected. The box on the right shows the recent messages between that selected person and the current user, with the most recent messages at the bottom. The form below that is for input of a new message, with an adjacent button to submit the message.
+![image](https://user-images.githubusercontent.com/72777671/123360928-21fe4c80-d53c-11eb-8526-82759f7159d3.png)
+
+
+The sidebar is the same as before but this time with the "most recent" contacts option selected. Each row in the box on the right corresponds to a contact/friend and shows the most recent message between that person and the current user.
+![image](https://user-images.githubusercontent.com/72777671/123360992-40fcde80-d53c-11eb-88e7-46049fdec5af.png)
 ### Database Schema
 The PostgreSQL database for Chatter has two tables, **users** and **messages**.
 
@@ -155,4 +162,4 @@ See the [open issues](https://github.com/knees4bees/chatter-api/issues) for a bu
 ---
 ## Contact
 [<img src="https://img.shields.io/badge/LinkedIn-Katie%20B-informational?style=for-the-badge&labelColor=black&logo=linkedin&logoColor=0077b5&&color=0077b5"/>](https://www.linkedin.com/in/katie-b-dev)
-[<img src="https://img.shields.io/badge/Github-Katie%20B-informational?style=for-the-badge&labelColor=black&logo=github&color=8B0BD5"/>]( https://github.com/knees4bees )
+[<img src="https://img.shields.io/badge/Github-Katie%20B-informational?style=for-the-badge&labelColor=black&logo=github&color=8B0BD5"/>]( https://github.com/knees4bees)
