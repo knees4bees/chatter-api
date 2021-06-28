@@ -123,7 +123,7 @@ I filed an [issue](https://github.com/knees4bees/chatter-api/issues/25) for this
 
 ---
 ## Endpoints
-For more details please see the separate [API documentation](API_documentation.md).
+For more details, please see the separate [API documentation](API_documentation.md).
 
 | Name | Method | Description |
 | ---- | ------ | ----------- |
@@ -173,8 +173,17 @@ The PostgreSQL database for Chatter has two tables, **users** and **messages**.
 
 ---
 ## Ideas and Issues
-
-See the [open issues](https://github.com/knees4bees/chatter-api/issues) for a bug list.
+There are several avenues for future improvement:
+- Refactor database calls in `app.js` for messages endpoint. Right now the two flavors differ only in whether they include the line `.where('sender_id', sender_id)`.
+- Consider organizing the messages endpoint differently so that it's possible to retrieve recent messages from an entire two-sided conversation rather than the way it's set up now, where you get recent messages from each side of the conversation individually. This wasn't possible given the original project specification, but it would be more desirable from a frontend perspective.
+- In the test file, figure out how to make a fixed date for `now` to ensure predictable results. (The way it's set up now isn't likely to be a problem, but the tests would be more robust with all dates being controlled.)
+- Consider moving the declaration of the variable `now` out of the global scope in `app.js`. It's okay at the moment, but in a production app we'd need to consider the possibility of a user leaving the app open for a while and the meaning of `now` becoming gradually less accurate.
+- Consider making the testing more robust by checking that the oldest record returned has a date within 30 days. (Right now the tests check that the correct number of records are returned but don't check the date explicitly.)
+- Figure out how to add tests for a wide range of 500 errors.
+- Add an option to seed the database without users to test a 404 response on the users endpoint.
+- Add a limit on the size of the content in POST requests for a new message. (The project specification calls for the ability to send "short text messages" but right now there's no explicit limit set on the size of the message content.)
+- Add a way to fetch only those users who are friends with or otherwise connected to the current user.
+- See the [open issues](https://github.com/knees4bees/chatter-api/issues) for a bug list.
 
 ---
 ## Contact
