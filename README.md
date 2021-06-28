@@ -18,7 +18,7 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisite">Prerequisite</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
         <li><a href="#usage">Usage</a></li>
         <li><a href="#testing">Testing</a></li>
@@ -65,16 +65,21 @@ The Chatter API was built using an Express server, a Postgres database, and the 
 ## Getting Started
 Follow these steps to get the Chatter API up and running on your local machine.
 
-### Prerequisite
-To run the Chatter API you'll need to have PostgreSQL installed: https://www.postgresql.org/download
-
+### Prerequisites
+To run the Chatter API you'll need to have Node.js and PostgreSQL installed:
+* https://www.postgresql.org/download
+* https://nodejs.org/en/download
 ### Installation
 
 1. Clone this repo:
    ```sh
    $ git clone git@github.com:knees4bees/chatter-api.git
    ```
-2. Install dependencies:
+2. Move into the chatter-api directory:
+   ```sh
+   $ cd chatter-api
+   ```
+3. Install dependencies:
    ```sh
    $ npm install
    ```
@@ -89,24 +94,29 @@ $ psql
 ```
 2. Run migrations:
 ```sh
-$ knex migrate:latest
-$ knex migrate:latest --env=test
+$ npx knex migrate:latest
+$ npx knex migrate:latest --env=test
 ```
 3. Seed databases:
 ```sh
-$ knex seed:run
-$ knex seed:run --env=test
+$ npx knex seed:run
+$ npx knex seed:run --env=test
 ```
 4. Start server:
 ```sh
 $ npm start
 ```
-5. In a browser, nagivate to `http://localhost:3000/`
+5. In a browser, nagivate to <http://localhost:3000>.
 
 ### Testing
 ```sh
 $ npm test
 ```
+Note that an error message appears that I wasn't able to easily resolve. It doesn't affect the outcome of the tests.
+```
+A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown. Try running with --detectOpenHandles to find leaks.
+```
+I filed an [issue](https://github.com/knees4bees/chatter-api/issues/25) for this.
 
 ---
 ## Endpoints
