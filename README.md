@@ -119,9 +119,9 @@ For more details please see the separate [API Documentation](API_documentation.m
 | `/api/v1/messages` | POST | Send a new message from a sender to a recipient |
 | `/api/v1/users` | GET | Get all users |
 
-#### All output is in JSON format.
+All output is in JSON format.
 
-#### Wrongly formatted or invalid requests yield an error (i.e., a 404, 422, or 500 status code, along with an accompanying error message).
+Wrongly formatted or invalid requests yield an error (i.e., a 404, 422, or 500 status code, along with an accompanying error message).
 ---
 ## Project Design and Process
 
