@@ -27,6 +27,7 @@
     <li><a href="#endpoints">Endpoints</a></li>
     <li><a href="#project-design-and-process">Project Design and Process</a>
       <ul>
+        <li><a href="#project-management">Project Management</a></li>
         <li><a href="#wireframes">Wireframes</a></li>
         <li><a href="#database-schema">Database Schema</a></li>
       </ul>
@@ -47,6 +48,8 @@ Chatter has a few basic functions:
 - A list of all users can be requested
 
 Only recent messages (within the past 30 days) are returned, with a limit of 100 messages.
+
+The API documentation exists as a separate [file in this repo](API_documentation.md).
 
 ### Background
 (Or lack thereof... 🙂) I recently graduated from the _frontend_ engineering program at [Turing School](https://turing.edu), and this is my first backend project! I wouldn't be surprised if I've missed something obvious, given weird names to things, used unusual patterns, etc. Feedback of any kind is more than welcome! I'm here to learn.
@@ -120,7 +123,7 @@ I filed an [issue](https://github.com/knees4bees/chatter-api/issues/25) for this
 
 ---
 ## Endpoints
-For more details please see the separate [API Documentation](API_documentation.md).
+For more details please see the separate [API documentation](API_documentation.md).
 
 | Name | Method | Description |
 | ---- | ------ | ----------- |
@@ -134,9 +137,13 @@ Wrongly formatted or invalid requests yield an error (i.e., a 404, 422, or 500 s
 
 ---
 ## Project Design and Process
-I started this project by sketching a few wireframes for a possible frontend, partly because that helped me get comfortable but mostly so I could imagine how and where the API's data might eventually be used and let that guide me in my decisions as I planned the structure of the endpoints and the database schema.
+
+### Project Management
+I organized my work using a [GitHub Projects board with automated kanban](https://github.com/knees4bees/chatter-api/projects/1).
 
 ### Wireframes
+I started this project by sketching a few wireframes for a possible frontend, partly because that helped me get comfortable but mostly so I could imagine how and where the API's data might eventually be used and let that guide me in my decisions as I planned the structure of the endpoints and the database schema.
+
 The sidebar on the left holds a list of all users (possibly/probably only those users who are the current user's friends/contacts) with a specific person selected. The box on the right shows the recent messages between that selected person and the current user, with the most recent messages at the bottom. The form below that is for input of a new message, with an adjacent button to submit the message.
 ![image](https://user-images.githubusercontent.com/72777671/123360928-21fe4c80-d53c-11eb-8526-82759f7159d3.png)
 
