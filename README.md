@@ -113,8 +113,8 @@ $ npm test
 For more details please see the separate [API Documentation](API_documentation.md).
 
 | Name | Method | Description |
-| ---------- | ------ | -------- |
-| `/api/v1/messages?recipient=:recipient_id&sender=:sender_id` | GET | Get all recent messages for a particular recipient (required), optionally from a particular sender |
+| ---- | ------ | ----------- |
+| `/api/v1/messages?recipient=:recipient_id&sender=:sender_id` | GET | Get up to 100 recent messages for a particular recipient (required), optionally from a particular sender |
 | `/api/v1/messages` | POST | Send a new message from a sender to a recipient |
 | `/api/v1/users` | GET | Get all users |
 
