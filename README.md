@@ -110,7 +110,6 @@ $ npm test
 
 ---
 ## Endpoints
-
 For more details please see the separate [API Documentation](API_documentation.md).
 
 | Name | Method | Description |
@@ -122,6 +121,7 @@ For more details please see the separate [API Documentation](API_documentation.m
 All output is in JSON format.
 
 Wrongly formatted or invalid requests yield an error (i.e., a 404, 422, or 500 status code, along with an accompanying error message).
+
 ---
 ## Project Design and Process
 
